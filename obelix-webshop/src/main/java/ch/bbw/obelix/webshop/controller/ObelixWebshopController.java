@@ -1,11 +1,8 @@
 package ch.bbw.obelix.webshop.controller;
 
-import java.util.List;
 import java.util.UUID;
 
 import ch.bbw.obelix.webshop.dto.BasketDto;
-import ch.bbw.obelix.webshop.dto.MenhirDto;
-import ch.bbw.obelix.webshop.entity.MenhirEntity;
 import ch.bbw.obelix.webshop.repository.MenhirRepository;
 import ch.bbw.obelix.webshop.service.ObelixWebshopService;
 import lombok.RequiredArgsConstructor;
@@ -31,27 +28,6 @@ public class ObelixWebshopController {
 	@GetMapping("/api")
 	public String welcome() {
 		return "Welcome to Obelix's Menhir Shop! The finest menhirs in all of Gaul! Ces Romains sont fous!";
-	}
-
-	@GetMapping("/api/menhirs")
-	public List<MenhirDto> getAllMenhirs() {
-		return menhirRepository.findAll()
-			.stream().map(MenhirEntity::toDto).toList();
-	}
-
-	@GetMapping("/api/menhirs/{menhirId}")
-	public MenhirDto getMenhirById(@PathVariable UUID menhirId) {
-		return menhirRepository.findById(menhirId)
-			.map(MenhirEntity::toDto)
-			.orElseThrow(() -> new UnknownMenhirException("unknown menhir with id " + menhirId));
-	}
-
-	/**
-	 * Note that this should only be called by Asterix himself. Hopefully, no customer will ever find this endpoint...
-	 */
-	@DeleteMapping("/api/quarry/{menhirId}")
-	public void deleteById(@PathVariable UUID menhirId) {
-		menhirRepository.deleteById(menhirId);
 	}
 
 	/**
